@@ -1,0 +1,6 @@
+.gocache/
+*.exe
+*.test
+coverage.out
+
+config.json
