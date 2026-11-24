@@ -2,8 +2,5 @@
 	"telegramBotToken": "123456:replace-me",
 	"allowedUserIds": [123456789],
 	"jiralBaseUrl": "https://files.example.com",
-	"jiralApiToken": "replace-me",
-	"telegramMaxDownloadBytes": 2097152000,
-	"httpTimeoutSeconds": 180,
-	"queueSize": 32
+	"jiralApiToken": "replace-me"
 }

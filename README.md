@@ -1,15 +1,37 @@
 # jiral-tg
 
-Personal Telegram bot that uploads Telegram attachments to [jiral](https://github.com/FrostyDeFreeze/jiral) and forwards Instagram/TikTok links to remote fetch
+Personal Telegram bot for [jiral](https://github.com/FrostyDeFreeze/jiral). It
+uploads any file sent to it, as a photo, video or document, and makes jiral
+fetch Instagram, TikTok, Twitch, YouTube and X links. Each file and link gets
+its own reply with the link and copy and delete buttons.
 
-## Setup
+## Deploy
 
-1. Copy `config.example.json` to `config.json`
-2. Set `telegramBotToken`, `allowedUserIds`, `jiralBaseUrl`, and `jiralApiToken`
-3. Run:
+Needs Go 1.25+ and a running jiral.
 
 ```bash
-go run .
+git clone https://github.com/FrostyDeFreeze/jiral-tg
+cd jiral-tg
+cp config.example.json config.json
+go build -o jiral-tg .
+cp jiral-tg.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable --now jiral-tg
 ```
 
-The bot uses long polling and processes one upload/fetch task at a time. The default Telegram file download limit is 20 MB because this uses the regular Telegram Bot API
+Logs: `journalctl -u jiral-tg -f`.
+
+## Config
+
+`config.json` in the working directory. All fields are required, unknown fields
+are an error.
+
+| Field              | Meaning                           |
+| ------------------ | --------------------------------- |
+| `telegramBotToken` | token from @BotFather             |
+| `allowedUserIds`   | Telegram user IDs the bot answers |
+| `jiralBaseUrl`     | public jiral URL                  |
+| `jiralApiToken`    | jiral `apiToken`                  |
+
+The bot uses the regular Telegram Bot API, so files over 20 MB can't be
+uploaded through it. Messages are handled one at a time.
